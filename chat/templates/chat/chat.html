@@ -1,8 +1,13 @@
 
 {% if user.is_authenticated %}
+		{% load static %}
+		<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}" />
+		<script src="{% static 'js/jquery.min.js' %}" ></script>
+		<script src="{% static 'js/funcionalidad.js' %}" ></script>
+
 		<div style="position: absolute; right:6%; top: 0px;"><a href="/chat">Perfil</a></div>
 		<div style="position: absolute; right:2%; top: 0px;"><a href="{% url 'logout' %}">Salir</a></div>
-		<h2>Chat</h2>
+		<h1 style="text-align: center">Chat</h1>
 		{% if messages %}
 			<div style="width: 50%; margin: 0 auto;">
 			    {% for message in messages %}
