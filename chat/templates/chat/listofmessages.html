@@ -1,0 +1,9 @@
+{% if messages %}
+    <ul>
+    {% for message in messages %}
+        <li>{{ message.text }} ({{message.post_date|date:"d.m.Y h:m:s"}})</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No ha publicado mensajes.</p>
+{% endif %}

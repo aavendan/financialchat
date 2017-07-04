@@ -1,0 +1,12 @@
+{% if users %}
+    <ul>
+    {% for user in users %}
+	<li>
+		Usuario: {{user.name}}
+		<a href="/chat/{{user.id}}">Ver Mensajes</a>
+	</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No existen usuarios disponibles.</p>
+{% endif %}

@@ -1,0 +1,18 @@
+{% if user.is_authenticated %}
+	<div style="position: absolute; right:2%; top: 0px;"><a href="{% url 'logout' %}">Salir</a></div>
+	<div style="position: absolute; right:6%; top: 0px;"><a href="/chat/online">Chat</a></div>
+	<h1>Perfil de usuario</h1>
+	<div>Usuario: {{ user.get_username }}</div>
+	<div>Nombre: {{ user.first_name }} {{user.last_name}}</div>
+	
+	{% if messages %}
+	    <ul>
+	    {% for message in messages %}
+	        <li>{{ message.text }} ({{message.post_date|date:"d.m.Y h:m:s"}})</li>
+	    {% endfor %}
+	    </ul>
+	{% else %}
+	    <p>No ha publicado mensajes.</p>
+	{% endif %}
+
+{% endif %}
