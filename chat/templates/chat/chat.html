@@ -2,14 +2,17 @@
 {% if user.is_authenticated %}
 		{% load static %}
 		<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}" />
+		<script src="{% static 'js/stomp.js' %}" ></script>
 		<script src="{% static 'js/jquery.min.js' %}" ></script>
 		<script src="{% static 'js/funcionalidad.js' %}" ></script>
+
+		<div id="userid" style="display: none;">{{ user.id }}</div>
 
 		<div style="position: absolute; right:6%; top: 0px;"><a href="/chat">Perfil</a></div>
 		<div style="position: absolute; right:2%; top: 0px;"><a href="{% url 'logout' %}">Salir</a></div>
 		<h1 style="text-align: center">Chat</h1>
 		{% if messages %}
-			<div style="width: 50%; margin: 0 auto;">
+			<div id="mensaje" style="width: 50%; margin: 0 auto; max-height: 70%; overflow: scroll;">
 			    {% for message in messages %}
 				    <div style="border: 1px solid black; border-radius: 5px;  margin-right: 2px; margin-bottom: 2px; padding: 5px;">
 						<div>{{ message.text }}</div>
@@ -19,12 +22,12 @@
 					</div>
 			    {% endfor %}
 		    </div>
-		    <div style="width: 50%; margin: 0 auto; text-align: center">
-		    	<input type="text"><input type="submit" value="Enviar">
-		    </div>
 		{% else %}
 	   		<p>No han publicado mensajes.</p>
 		{% endif %}
+		<div style="width: 50%; margin: 0 auto; text-align: center">
+		    	<input id="texto" type="text" value="/day_range=APPL"><input id="enviar" type="submit" value="Enviar">
+		    </div>
 {% else %}
 <p>Registrese para ver esta página.</p>
 {% endif %}

@@ -6,6 +6,7 @@ from .models import Message
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 import urllib.request
+from django.views.decorators.csrf import csrf_exempt
 
 @login_required
 def index(request):
@@ -25,7 +26,29 @@ def online(request):
 	return render(request, 'chat/chat.html',context)
 
 
-def lowhigh(request):
-	url = "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.quotes%20where%20symbol%20in%20(%22AAPL%22)&env=store://datatables.org/alltableswithkeys"
+def lowhigh(request,code):
+	url = "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.quotes%20where%20symbol%20in%20(%22"+code+"%22)&env=store://datatables.org/alltableswithkeys"
 	doc = urllib.request.urlopen(url)
 	return HttpResponse(doc.read(), content_type='text/xml')
+
+@csrf_exempt
+def save(request):
+	
+	if request.is_ajax():
+		if request.method == 'POST':
+			from django.utils import timezone
+
+			user = User.objects.get(pk=request.POST.get('userid'))
+			text = request.POST.get('message')
+			m = Message(user=user, text= text, post_date=timezone.now())
+			m.save()
+	try:
+		user = User.objects.get(pk=request.user.id)
+	except User.DoesNotExist:
+		raise Http404("User does not exist")
+
+	messages = user.message_set.all()[:50][::-1]
+	context = {'messages':messages}
+	return render_to_response('chat/index.html', context)
+
+
