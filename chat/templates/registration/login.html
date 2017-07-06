@@ -5,36 +5,43 @@
 {% if form.errors %}
 <p>El usuario y la contraseña no coinciden. Intente de nuevo.</p>
 {% endif %}
-
-{% if next %}
-    {% if user.is_authenticated %}
-    <p>
-    Su usuario no tiene acceso a esta página. Para continuar,
-    por favor regístrese con una cuenta para tener acceso.</p>
-    {% else %}
-    <p>Registrese para ver esta página.</p>
-    {% endif %}
-{% endif %}
-
-<form method="post" action="{% url 'login' %}">
+<div class="wrapper">
+  <div class="keymessage">
+  {% if next %}
+      {% if user.is_authenticated %}
+      <p>
+      Su usuario no tiene acceso a esta página. Para continuar,
+      por favor regístrese con una cuenta para tener acceso.</p>
+      {% else %}
+      <p>Registrese para ver esta página.</p>
+      {% endif %}
+  {% endif %}
+  </div>
+  
+<form class="form-signin" method="post" action="{% url 'login' %}">
 {% csrf_token %}
-
-<div>
-  <td>{{ form.username.label_tag }}</td>
-  <td>{{ form.username }}</td>
-</div>
-<div>
-  <td>{{ form.password.label_tag }}</td>
-  <td>{{ form.password }}</td>
-</div>
-
-<div>
-  <input type="submit" value="login" />
-  <input type="hidden" name="next" value="{{ next }}" />
-</div>
+  <h2 class="form-signin-heading">Ingrese su usuario y contraseña</h2>
+  <div>
+    <!--td>{{ form.username.label_tag }}</td-->
+    <div class="tag">Usuario:</div>
+    <div class="input">{{ form.username }}</div>
+  </div>
+  <div>
+    <!--td>{{ form.password.label_tag }}</td-->
+    <div class="tag">Contraseña:</div>
+    <div class="input">{{ form.password }}</div>
+  </div>
+  <div style="clear:both"></div>
+  <div id="buttons">
+    <input class="form-control" type="submit" value="Ingresar" />
+    <input class="form-control" type="hidden" name="next" value="{{ next }}" />
+  </div>
 </form>
 
-{# Assumes you setup the password_reset view in your URLconf #}
-<p><a href="{% url 'password_reset' %}">Olvidó la contraseña?</a></p>
 
+{# Assumes you setup the password_reset view in your URLconf #}
+<div class="keymessage">
+<p><a href="{% url 'password_reset' %}">Olvidó la contraseña?</a></p>
+</div>
+</div>
 {% endblock %}

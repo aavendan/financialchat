@@ -1,18 +1,69 @@
-{% if user.is_authenticated %}
-	<div style="position: absolute; right:2%; top: 0px;"><a href="{% url 'logout' %}">Salir</a></div>
-	<div style="position: absolute; right:6%; top: 0px;"><a href="/chat/online">Chat</a></div>
-	<h1>Perfil de usuario</h1>
-	<div>Usuario: {{ user.get_username }}</div>
-	<div>Nombre: {{ user.first_name }} {{user.last_name}}</div>
-	
-	{% if messages %}
-	    <ul>
-	    {% for message in messages %}
-	        <li>{{ message.text }} ({{message.post_date|date:"d.m.Y h:m:s"}})</li>
-	    {% endfor %}
-	    </ul>
-	{% else %}
-	    <p>No ha publicado mensajes.</p>
-	{% endif %}
-
-{% endif %}
+{% if user.is_authenticated %} {% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'css/dashboard.css' %}" />
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Financial Chat</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li></li>
+                <li><a href="{% url 'logout' %}">Salir</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+            <ul class="nav nav-sidebar">
+                <li class="active">
+                    <a href="/chat">Perfil<span class="sr-only">(current)</span></a>
+                </li>
+                <li><a href="/chat/online">Chat</a></li>
+            </ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <h1 class="page-header">Usuario: {{ user.get_username }}</h1>
+            <div class="row placeholders">
+                <div class="col-xs-6 col-sm-3 placeholder">
+                    <img src="{% static 'img/usuario.png' %}" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
+                    <h4>{{ user.first_name }}</h4>
+                    <span class="text-muted">{{user.last_name}}</span>
+                </div>
+            </div>
+            {% if messages %} 
+            <h2 class="sub-header">Mensajes Enviados</h2>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Mensaje</th>
+                            <th>Fecha</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                        	{% for message in messages %}
+	                        <tr>
+	                            <td>{{ message.text }} </td>
+	                            <td>{{message.post_date|date:"d.m.Y h:m:s"}}</td>
+	                        </tr>
+                        	{% endfor %} 
+            {% else %}
+				<p>No ha publicado mensajes.</p>
+            {% endif %} 
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

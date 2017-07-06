@@ -1,3 +1,43 @@
-li a {
-    color: green;
+.message {
+	background-color: #efe6ce;
+    border: 1px solid black;
+    border-radius: 5px;
+    margin-right: 2px;
+    margin-bottom: 2px;
+    text-align: justify;
+    padding: 5px;
+}
+
+.text-message{
+	color: #34770d;
+	font-size: 1.1em;
+}
+
+.owner {
+	width: 75%; float: left;
+	font-weight: bold;
+}
+
+.date {
+	width: 25%; float: left; text-align: center;
+	font-style: italic;
+}
+
+.cleaner {
+	clear: both;
+}
+
+#listofmessages {
+	height: 40%;
+	max-height: 40%; 
+	overflow-y: scroll;
+
+	border-top: 1px;
+	border-bottom: 1px;
+	border-left: 0px;
+	border-right: 0px;
+	border-color: black;
+	border-style: solid;
+
+	padding: 5px 0px 5px 0px;
 }

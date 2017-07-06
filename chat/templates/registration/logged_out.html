@@ -1,7 +1,11 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-<p>Logged out!</p>  
+<div class="wrapper">
+<div id="out">
+	<p>Saliste del Financial chat!</p>  
 
-<a href="{% url 'login'%}">Click here to login again.</a>
+	<a href="{% url 'login'%}">Click aquí para ingresar.</a>
+</div>
+</div>
 {% endblock %}

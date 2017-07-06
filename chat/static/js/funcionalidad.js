@@ -1,23 +1,7 @@
 var client;
 
-function saveMessage(message) {
-	var userid = $('#userid').text();
-
-	$.ajax({
-            url: '/chat/save/',
-            data: {message:message,userid:userid},
-            error: function() {
-            },
-            success: function(data) {
-            	$('#mensaje').html(data);
-            },
-            type: 'POST'
-        });
-}
-
 function conectar() {
     var subscription = client.subscribe('/topic/bunny', recibirMensaje);
-    $('#estado').text("Estado: Conectado :D");
 
 }
 
@@ -27,45 +11,37 @@ function error() {
 
 function recibirMensaje(mensaje) {
     if (mensaje.body) {
-        var mensaje_recibido = mensaje.body;
-        var texto = document.createTextNode(">> " + mensaje_recibido);
-        $('#mensajes').append($('<p></p>').append(texto));
+        $('#listofmessages').html(mensaje.body); 
+        $("#listofmessages").animate({ scrollTop: $('#listofmessages').prop("scrollHeight")}, 1000);       
     } else {
         console.log("Error!");
     }
 }
 
 function enviarMensaje() {
-    // /day_range=APPL
+    // AAPL YHOO MSFT
     var patron = '/day_range='
     var instruccion = $('#texto').val();
 
     if (instruccion.indexOf(patron) >= 0) {
 
-    	instruccion = instruccion.replace(patron,"");
+        instruccion = instruccion.replace(patron, "");
 
+        var userid = $('#userid').text();
         var texto = $('#texto').val();
-        client.send('/topic/bunny', {}, texto);
-        $('#texto').val('');
+        
+        $('#texto').val('/day_range=');
 
         $.ajax({
-            url: '/chat/lowhigh/'+instruccion,
+            url: '/chat/lowhigh/',
+            data: { userid: userid, instruccion: instruccion },
             error: function() {
                 alert('¡error al cargar el archivo!')
             },
-            dataType: 'xml',
             success: function(data) {
-                let dayslow= $(data).find('DaysLow').text();
-                let dayshigh =$(data).find('DaysHigh').text();
-                let name =$(data).find('Name').text();
-
-                var message = instruccion+" ("+name+") Days Low quote is $"+dayslow+
-                " and Days High quote is $"+dayshigh+"."
-                
-                saveMessage(message);
-
+                client.send('/topic/bunny', {}, data);
             },
-            type: 'GET'
+            type: 'POST'
         });
 
     } else {
@@ -86,8 +62,10 @@ function crearWebSocket() {
 
 $(window).load(function() {
     crearWebSocket();
+
     $('#enviar').click(function() {
         enviarMensaje();
     })
-
+    $("#listofmessages").animate({ scrollTop: $('#listofmessages').prop("scrollHeight")}, 1000);
+    
 });

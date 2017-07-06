@@ -1,9 +1,14 @@
 {% if messages %}
-    <ul>
+<div id="mensaje">
     {% for message in messages %}
-        <li>{{ message.text }} ({{message.post_date|date:"d.m.Y h:m:s"}})</li>
+    <div class="message">
+        <div class="text-message">{{ message.text }}</div>
+        <div class="owner">By: {{message.user.first_name}} ({{message.user.get_username}})</div>
+        <div class="date">{{message.post_date|date:"d.m.Y h:m:s"}}</div>
+        <div class="cleaner"></div>
+    </div>
     {% endfor %}
-    </ul>
+</div>
 {% else %}
-    <p>No ha publicado mensajes.</p>
+<p>No han publicado mensajes.</p>
 {% endif %}

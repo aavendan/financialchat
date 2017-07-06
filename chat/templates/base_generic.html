@@ -1,5 +1,8 @@
 {% block content %}{% endblock %}
   
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/registration.css' %}" />
+  
 {% block pagination %}
   {% if is_paginated %}
       <div class="pagination">
