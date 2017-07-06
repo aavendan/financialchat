@@ -3,9 +3,12 @@
 Instalar Django
 Instalar Rabbitmq, activar STOMP
 
-
+Desde Rabbitmq
 Levantar sbin/rabbitmq-server
+
+Desde la carpeta financialchat
 Levantar python manage.py runserver
+
 
 
 admin
